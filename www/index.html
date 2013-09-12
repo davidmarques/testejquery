@@ -28,7 +28,11 @@
 <div id="copo">
 <div id="Lat"></div>
 <div id="Long"></div>
-<div id="Status"></div>
+<div id="Alti"></div>
+<div id="Head"></div>
+<div id="Tims"></div>
+
+<div id="Status">Aguarde...</div>
 </div>
 
 </div>
@@ -36,7 +40,7 @@
 
 </body>
 <script type="text/javascript">
-  $(function() {
+function localiza() {
 
         var Geo={};
 
@@ -48,25 +52,25 @@
         function success(position) {
             Geo.lat = position.coords.latitude;
             Geo.lng = position.coords.longitude;
-            populateHeader(Geo.lat, Geo.lng);
+			Geo.alt = position.coords.altitude;
+			Geo.hea = position.coords.heading;
+			Geo.tms = position.timestamp;
+            populateHeader(Geo.lat, Geo.lng, Geo.alt, Geo.hea, Geo.tms);
         }
 
         function error(){
-            $("#Status").html("Geocoder failed");
+            $("#Status").html("Falha ao acessar o GPS");
         }
 
-        function populateHeader(lat, lng){
+        function populateHeader(lat, lng, alt, hea, tms){
             $('#Lat').html(lat);
             $('#Long').html(lng);
+			$('#Alti').html(alt);
+			$('#Head').html(hea);
+			$('#Tims').html(tms);
         }
 
-    });
-
-function anima(){
-	$( "#copo" ).animate({ "left": "+=50px" }, 100 );
-	$( "#copo" ).animate({ "left": "-=50px" }, 100 );
-	$( "#copo" ).animate({ "left": "+=50px" }, 100 );
-	$( "#copo" ).animate({ "left": "-=50px" }, 100 );
-}
+    }
+setInterval(localiza,1000);
 </script>
 </html>

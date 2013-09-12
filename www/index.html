@@ -13,10 +13,12 @@
 #copo{
 	background:#990000;
 	position:relative;
-	width:10%;
-	height:10%;
-	top:50%;
-	left:50%;
+	text-align:center;
+	vertical-align:middle;
+	width:30%;
+	height:30%;
+	top:35%;
+	left:35%;
 }
 </style>
 </head>
@@ -24,6 +26,9 @@
 
 <div id="tela" onClick="anima()">
 <div id="copo">
+<div id="Lat"></div>
+<div id="Long"></div>
+<div id="Status"></div>
 </div>
 
 </div>
@@ -31,6 +36,32 @@
 
 </body>
 <script type="text/javascript">
+  $(function() {
+
+        var Geo={};
+
+        if (navigator.geolocation) {
+           navigator.geolocation.getCurrentPosition(success, error);
+        }
+
+        //Get the latitude and the longitude;
+        function success(position) {
+            Geo.lat = position.coords.latitude;
+            Geo.lng = position.coords.longitude;
+            populateHeader(Geo.lat, Geo.lng);
+        }
+
+        function error(){
+            $("#Status").html("Geocoder failed");
+        }
+
+        function populateHeader(lat, lng){
+            $('#Lat').html(lat);
+            $('#Long').html(lng);
+        }
+
+    });
+
 function anima(){
 	$( "#copo" ).animate({ "left": "+=50px" }, 100 );
 	$( "#copo" ).animate({ "left": "-=50px" }, 100 );
